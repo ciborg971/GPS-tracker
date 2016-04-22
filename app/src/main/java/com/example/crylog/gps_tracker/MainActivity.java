@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         time = (TextView) findViewById(R.id.ov_time);
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         gpsd = new gps_data();
+        gps_stack.setSize(100);
     }
 
     View.OnClickListener Start_or_stop = new View.OnClickListener() {

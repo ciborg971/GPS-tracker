@@ -11,7 +11,7 @@ import android.view.View;
  * Created by crylog on 21/04/16.
  */
 public class cv extends View {
-
+int width = 1;
     public cv(Context context, AttributeSet att) {
         super(context, att);
         init();
@@ -27,5 +27,7 @@ public class cv extends View {
         pt.setStyle(Paint.Style.FILL);
         pt.setColor(Color.BLACK);
         canvas.drawPaint(pt);
+        pt.setColor(Color.WHITE);
+
     }
 }
