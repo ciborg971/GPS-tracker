@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Stack;
+
 public class MainActivity extends AppCompatActivity {
 Button Start_stop;
     TextView cs;
@@ -16,6 +18,8 @@ Button Start_stop;
     cv custom_v;
     Boolean st = false;
     gps mygps;
+    Stack<gps_data> gps_stack = new Stack<gps_data>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +37,11 @@ Button Start_stop;
         public void onClick(View v) {
             if(st){
                 st = !st;
+                mygps.enable(1,1);
                 Start_stop.setText("START TRACKING");
             }else{
                 st = !st;
+                mygps.desable();
                 Start_stop.setText("STOP TRACKING");
             }
         }
