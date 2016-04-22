@@ -3,6 +3,7 @@ package com.example.crylog.gps_tracker;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,6 +14,8 @@ Button Start_stop;
     TextView as;
     TextView time;
     cv custom_v;
+    Boolean st = false;
+    gps mygps;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +25,21 @@ Button Start_stop;
         Display display = getWindowManager().getDefaultDisplay();
         int width = display.getWidth();
         custom_v.setLayoutParams(new LinearLayout.LayoutParams(width, width));
-
+        Start_stop = (Button)findViewById(R.id.tracking);
+        Start_stop.setOnClickListener(Start_or_stop);
     }
+    View.OnClickListener Start_or_stop = new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            if(st){
+                st = !st;
+                Start_stop.setText("START TRACKING");
+            }else{
+                st = !st;
+                Start_stop.setText("STOP TRACKING");
+            }
+        }
+
+
+    };
 }
