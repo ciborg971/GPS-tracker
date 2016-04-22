@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         time = (TextView) findViewById(R.id.ov_time);
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         gpsd = new gps_data();
-        gps_stack.setSize(100);
     }
 
     View.OnClickListener Start_or_stop = new View.OnClickListener() {
@@ -101,6 +100,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         gpsd.latitude = location.getLatitude();
         gpsd.longitude = location.getLongitude();
         gps_stack.add(gpsd);
+        if(gps_stack.size() > 100)
+        {
+            gps_stack.pop();
+        }
+
     }
 
     @Override

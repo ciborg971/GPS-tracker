@@ -30,4 +30,11 @@ int width = 1;
         pt.setColor(Color.WHITE);
 
     }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh)
+    {
+        width = w;
+        super.onSizeChanged(w,h,oldw,oldh);
+    }
 }
