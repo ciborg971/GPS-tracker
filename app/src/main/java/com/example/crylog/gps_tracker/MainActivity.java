@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     TextView time;
     cv custom_v;
     Boolean st = false;
-    Stack<gps_data> gps_stack = new Stack<gps_data>();
     gps_data gpsd;
+    boolean b = true;
     private LocationManager lm;
 
     @Override
@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         Start_stop.setOnClickListener(Start_or_stop);
         time = (TextView) findViewById(R.id.ov_time);
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        gpsd = new gps_data();
     }
 
     View.OnClickListener Start_or_stop = new View.OnClickListener() {
@@ -95,16 +94,27 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public void onLocationChanged(Location location) {
-        String str = "Latitude: "+location.getLatitude()+" Longitude: "+location.getLongitude() + "poney : " + gps_stack.size();
-        Toast.makeText(getBaseContext(), str, Toast.LENGTH_SHORT).show();
+        //String str = "Latitude: "+location.getLatitude()+" Longitude: "+location.getLongitude() + "poney : " + custom_v.gps_stack.size() + "Speed : " + location.getSpeed();
+        gpsd = new gps_data();
         gpsd.latitude = location.getLatitude();
         gpsd.longitude = location.getLongitude();
-        gps_stack.add(gpsd);
-        if(gps_stack.size() > 100)
-        {
-            gps_stack.pop();
-        }
+        gpsd.speed = location.getSpeed()*(3.6);
+        if(b) {
+            if(custom_v.index != 99){
+            custom_v.gps_arr[custom_v.index] = gpsd;
+            custom_v.index ++;
+            }else {
+                custom_v.gps_arr[custom_v.index] = gpsd;
+                b = false;
+            }
 
+        }else{
+            for (int i = 0; i < 99; i++)
+            {
+                custom_v.gps_arr[i] = custom_v.gps_arr[i+1];
+            }
+            custom_v.gps_arr[99] = gpsd;
+        }
     }
 
     @Override

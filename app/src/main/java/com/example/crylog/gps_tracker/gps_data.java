@@ -6,4 +6,5 @@ package com.example.crylog.gps_tracker;
 public class gps_data {
     Double longitude = 0.0;
     Double latitude = 0.0;
+    Double speed = 0.0;
 }
