@@ -24,9 +24,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     TextView cs;
     TextView as;
     TextView time;
+    TextView tv_gpserino;
     cv custom_v;
+    int current_time = 0;
     Boolean st = false;
     gps_data gpsd;
+    Double ave_speed = 0.0;
     boolean b = true;
     private LocationManager lm;
 
@@ -35,7 +38,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         custom_v = (cv) findViewById(R.id.cv);
+        as = (TextView)findViewById(R.id.av_speed);
         cs = (TextView) findViewById(R.id.cur_speed);
+        tv_gpserino = (TextView)findViewById(R.id.tv_gps);
         Display display = getWindowManager().getDefaultDisplay();
         int width = display.getWidth();
         custom_v.setLayoutParams(new LinearLayout.LayoutParams(width, width));
@@ -49,16 +54,15 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         @Override
         public void onClick(View v) {
             if (st) {
-                time.setText("poney");
                 st = false;
                 desable_gps();
                 Start_stop.setText("START TRACKING");
             } else {
-                time.setText("not a poney");
                 st = true;
                 enable_gps();
                 Start_stop.setText("STOP TRACKING");
             }
+            Log.d("rekt", "onClick: not poney");
         }
 
 
@@ -76,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             return;
         }
         lm.removeUpdates(MainActivity.this);
+        tv_gpserino.setText("GPS inactive");
     }
 
     private void enable_gps() {
@@ -89,13 +94,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        lm.requestLocationUpdates(lm.GPS_PROVIDER, 1, 1, this);
+        lm.requestLocationUpdates(lm.GPS_PROVIDER, 1000, 1, this);
+        tv_gpserino.setText("GPS active");
     }
 
     @Override
     public void onLocationChanged(Location location) {
         //String str = "Latitude: "+location.getLatitude()+" Longitude: "+location.getLongitude() + "poney : " + custom_v.gps_stack.size() + "Speed : " + location.getSpeed();
         gpsd = new gps_data();
+        time.setText(current_time + "s");
+        current_time++;
         gpsd.latitude = location.getLatitude();
         gpsd.longitude = location.getLongitude();
         gpsd.speed = location.getSpeed()*(3.6);
@@ -115,6 +123,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             }
             custom_v.gps_arr[99] = gpsd;
         }
+        cs.setText("Current Speed: " + gpsd.speed);
+        ave_speed = (ave_speed + gpsd.speed)/2;
+        as.setText("Average Speed: " + ave_speed);
+        custom_v.av_speed = ave_speed;
     }
 
     @Override

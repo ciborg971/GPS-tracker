@@ -20,7 +20,7 @@ import java.util.Stack;
 public class cv extends View {
 int width = 1;
    int index = 0;
-    gps_data gpsd = new gps_data();
+    Double av_speed = 1.0*width;
     gps_data [] gps_arr = new gps_data[100];
     Double cur_x = 0.0;
     Double cur_y = width * 1.0;
@@ -45,8 +45,13 @@ int width = 1;
         for(int i = 0; i < 6; i++) {
             canvas.drawLine(0, i*width / 6, width, i*width / 6, pt);
         }
-        pt.setColor(Color.GREEN);
+
+        pt.setColor(Color.RED);
         pt.setStyle(Paint.Style.STROKE);
+        Double temp = width - (av_speed/60)*width;
+        canvas.drawLine(0,temp.floatValue(),width,temp.floatValue(),pt);
+        pt.setColor(Color.GREEN);
+
         for(int i = 0; i < index ; i++)
         {
                 next_y = (gps_arr[i].speed / 60) * width;
