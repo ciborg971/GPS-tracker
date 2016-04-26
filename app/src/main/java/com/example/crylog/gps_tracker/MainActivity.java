@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     int current_time = 0;
     Boolean st = false;
     gps_data gpsd;
-    Double ave_speed = 0.0;
     boolean b = true;
     private LocationManager lm;
 
@@ -104,8 +103,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         gpsd = new gps_data();
         time.setText(current_time + "s");
         current_time++;
-        gpsd.latitude = location.getLatitude();
-        gpsd.longitude = location.getLongitude();
+        //gpsd.latitude = location.getLatitude();
+        //gpsd.longitude = location.getLongitude();
         gpsd.speed = location.getSpeed()*(3.6);
         if(b) {
             if(custom_v.index != 99){
@@ -124,9 +123,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             custom_v.gps_arr[99] = gpsd;
         }
         cs.setText("Current Speed: " + gpsd.speed);
-        ave_speed = (ave_speed + gpsd.speed)/2;
-        as.setText("Average Speed: " + ave_speed);
-        custom_v.av_speed = ave_speed;
+        as.setText("Average Speed: " + custom_v.av_speed);
     }
 
     @Override

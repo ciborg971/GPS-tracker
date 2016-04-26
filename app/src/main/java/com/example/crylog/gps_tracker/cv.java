@@ -46,23 +46,25 @@ int width = 1;
             canvas.drawLine(0, i*width / 6, width, i*width / 6, pt);
         }
 
-        pt.setColor(Color.RED);
-        pt.setStyle(Paint.Style.STROKE);
-        Double temp = width - (av_speed/60)*width;
-        canvas.drawLine(0,temp.floatValue(),width,temp.floatValue(),pt);
-        pt.setColor(Color.GREEN);
 
+        pt.setStyle(Paint.Style.STROKE);
+
+        pt.setColor(Color.GREEN);
+        av_speed = 0.0;
         for(int i = 0; i < index ; i++)
         {
                 next_y = (gps_arr[i].speed / 60) * width;
                 canvas.drawLine(cur_x.floatValue(), cur_y.floatValue(), i * (width / index), width - next_y.floatValue(), pt);
-                canvas.drawPaint(pt);
                 cur_x = i * (width / (index)) * 1.0;
                 cur_y = width - next_y;
-
+                av_speed+=gps_arr[i].speed;
         }
         cur_x = 0.0;
         cur_y = width * 1.0;
+        av_speed = av_speed/(index+1);
+        Double temp = width - (av_speed/60)*width;
+        pt.setColor(Color.RED);
+        canvas.drawLine(0,temp.floatValue(),width,temp.floatValue(),pt);
         invalidate();
     }
 
